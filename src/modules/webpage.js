@@ -269,6 +269,8 @@ function decorateNewPage(opts, page) {
     // Private callback for "page.open()"
     definePageSignalHandler(page, handlers, "_onPageOpenFinished", "loadFinished");
 
+    definePageSignalHandler(page, handlers, "onFileDownloadError", "fileDownloadError");
+
     phantom.__defineErrorSignalHandler__(page, page, handlers);
 
     page.onError = phantom.defaultErrorHandler;
@@ -449,6 +451,8 @@ function decorateNewPage(opts, page) {
     // Calls from within the page to "window.prompt(message, defaultValue)" arrive to this handler
     // @see https://developer.mozilla.org/en/DOM/window.prompt
     definePageCallbackHandler(page, handlers, "onPrompt", "_getJsPromptCallback");
+
+    definePageCallbackHandler(page, handlers, "onFileDownload", "_getFileDownloadCallback");
 
     // Calls from within the page when some javascript code running to long
     definePageCallbackHandler(page, handlers, "onLongRunningScript", "_getJsInterruptCallback");
